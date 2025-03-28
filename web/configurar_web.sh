@@ -54,7 +54,7 @@ cat <<EOF > /var/www/html/the_servir_sharkers/index.html
         <p>¡Próximamente lanzaremos nuestros zapatos voladores!</p>
         <p>Contacto: soporte@servirsharkers.com</p>
         <!-- Mostrar el logo -->
-        <img src="logo.jpg" alt="Logo de Servir Sharkers">
+        <img src="logo.jpeg" alt="Logo de Servir Sharkers">
     </div>
 </body>
 </html>
@@ -63,11 +63,11 @@ EOF
 # Descargar la imagen de fondo
 wget -O /var/www/html/the_servir_sharkers/bg.jpg "https://images.unsplash.com/photo-1562183241-b937e95585b6?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
-# Descargar el logo con metadatos ocultos
-wget -O /var/www/html/the_servir_sharkers/logo.jpg "https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat_cropped.jpg"
+# Asegúrate de que el logo se encuentre en la misma carpeta que index.html
+# Aquí solo se agregarán los metadatos si el archivo logo.jpg ya está presente en la carpeta.
 
-# Agregar metadatos ocultos a la imagen del logo
-exiftool -Comment="Usuario: manolo, Contraseña: CarreraCaballos2024" /var/www/html/the_servir_sharkers/logo.jpg
+# Agregar metadatos ocultos a la imagen del logo (Si el archivo logo.jpg ya está en la carpeta)
+exiftool -Comment="Usuario: manolo, Contraseña: Password123" /var/www/html/the_servir_sharkers/logo.jpeg
 
 # Configurar permisos
 chown -R www-data:www-data /var/www/html/the_servir_sharkers
