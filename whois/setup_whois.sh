@@ -70,16 +70,26 @@ EOL
 chmod +x "$WHOIS_SCRIPT"
 echo "Script WHOIS falso creado ✅"
 
-# Paso 3: Configurar alias para que "whois the server sharkers.com" ejecute el script
-echo "Configurando alias para WHOIS..."
-ALIAS_CMD="alias 'whois the server sharkers.com'='bash $WHOIS_SCRIPT'"
-if ! grep -q "$ALIAS_CMD" "$HOME/.bashrc"; then
-    echo "$ALIAS_CMD" >> "$HOME/.bashrc"
-    echo "$ALIAS_CMD" >> "$HOME/.bash_profile"
+# Paso 3: Configurar la función WHOIS en ~/.bashrc
+echo "Configurando función WHOIS en ~/.bashrc..."
+WHOIS_FUNCTION="
+# Función para redirigir 'whois the server sharkers.com' al script
+function whois() {
+    if [[ \"\$1 \$2 \$3\" == \"the server sharkers.com\" ]]; then
+        bash $WHOIS_SCRIPT \"\${4:-sharkers.com}\"
+    else
+        /usr/bin/whois \"\$@\"
+    fi
+}
+"
+if ! grep -q "function whois()" "$HOME/.bashrc"; then
+    echo "$WHOIS_FUNCTION" >> "$HOME/.bashrc"
 fi
-echo "Alias creado ✅"
+echo "Función WHOIS configurada ✅"
 
-# Recargar configuración para que el alias esté disponible de inmediato
+# Recargar configuración para que la función esté disponible de inmediato
 source "$HOME/.bashrc"
 
-echo "¡Configuración completa! Ahora puedes usar 'whois the server sharkers.com' para consultar información simulada de sharkers.com."
+echo "¡Configuración completa! Ahora puedes usar:"
+echo "  whois the server sharkers.com"
+echo "para consultar información simulada de sharkers.com."
