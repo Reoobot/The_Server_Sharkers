@@ -40,9 +40,12 @@ cat <<EOF > /var/www/html/the_servir_sharkers/index.html
         p {
             font-size: 1.2em;
         }
-        img {
-            width: 200px; /* Ajusta el tamaño según tu preferencia */
-            border-radius: 10px;
+        .logo {
+            background-image: url('logo.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            height: 200px; /* Ajusta la altura según sea necesario */
+            width: 200px;  /* Ajusta el tamaño según sea necesario */
             margin-top: 20px;
         }
     </style>
@@ -53,8 +56,8 @@ cat <<EOF > /var/www/html/the_servir_sharkers/index.html
         <p>Somos una empresa innovadora dedicada a la creación de calzado revolucionario.</p>
         <p>¡Próximamente lanzaremos nuestros zapatos voladores!</p>
         <p>Contacto: soporte@servirsharkers.com</p>
-        <!-- Mostrar el logo -->
-        <img src="logo.jpeg" alt="Logo de Servir Sharkers">
+        <!-- Mostrar el logo como fondo -->
+        <div class="logo"></div>
     </div>
 </body>
 </html>
@@ -63,11 +66,11 @@ EOF
 # Descargar la imagen de fondo
 wget -O /var/www/html/the_servir_sharkers/bg.jpg "https://images.unsplash.com/photo-1562183241-b937e95585b6?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
-# Asegúrate de que el logo se encuentre en la misma carpeta que index.html
-# Aquí solo se agregarán los metadatos si el archivo logo.jpg ya está presente en la carpeta.
+# Descargar el logo desde la URL
+wget -O /var/www/html/the_servir_sharkers/logo.jpg "https://plus.unsplash.com/premium_photo-1668790939919-08e863d23c86?q=80&w=2022&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
-# Agregar metadatos ocultos a la imagen del logo (Si el archivo logo.jpg ya está en la carpeta)
-exiftool -Comment="Usuario: manolo, Contraseña: Password123" /var/www/html/the_servir_sharkers/logo.jpeg
+# Agregar metadatos ocultos a la imagen del logo
+exiftool -Comment="Usuario: manolo, Contraseña: Password123" /var/www/html/the_servir_sharkers/logo.jpg
 
 # Configurar permisos
 chown -R www-data:www-data /var/www/html/the_servir_sharkers
