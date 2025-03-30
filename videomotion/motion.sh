@@ -4,7 +4,7 @@
 # 🔹 CONFIGURACIÓN INICIAL
 # ==============================
 echo "[+] Instalando paquetes necesarios..."
-apt update && apt install -y v4l2loopback-utils ffmpeg motion
+apt update && apt install -y v4l2loopback-utils ffmpeg motion xrdp vsftpd netcat
 
 # ==============================
 # 🔹 CREAR CÁMARA VIRTUAL
@@ -32,7 +32,12 @@ echo "[+] Creando carpeta para el video..."
 VIDEO_PATH="/home/ubuntu/videos/video.mp4"
 mkdir -p /home/ubuntu/videos
 
-echo "[+] Copia tu video en: $VIDEO_PATH antes de ejecutar el streaming."
+# Verificar si el video existe
+echo "[+] Verificando si el video existe..."
+if [ ! -f "$VIDEO_PATH" ]; then
+    echo "[!] No se encontró video.mp4, creando un video de prueba..."
+    ffmpeg -f lavfi -i testsrc=duration=10:size=640x480:rate=30 "$VIDEO_PATH"
+fi
 
 # ==============================
 # 🔹 INICIAR STREAMING EN BUCLE
@@ -40,6 +45,7 @@ echo "[+] Copia tu video en: $VIDEO_PATH antes de ejecutar el streaming."
 echo "[+] Iniciando transmisión del video..."
 while true; do
     ffmpeg -re -stream_loop -1 -i "$VIDEO_PATH" -f v4l2 /dev/video10
+    sleep 1
 done &
 
 echo "[+] Configuración completada. Puedes ver el video en: http://$(hostname -I | awk '{print $1}'):8081"
